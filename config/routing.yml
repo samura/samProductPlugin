@@ -1,0 +1,4 @@
+aProductItem_index:
+  url:  /
+  param: { module: aProductItem, action: index }
+  class: aRoute
