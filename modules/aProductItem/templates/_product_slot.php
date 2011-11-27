@@ -1,5 +1,5 @@
   <div class="product-thumbnail">
-  <?php a_slot('mainImage-'.$product->slug, 'aImage', array(
+  <?php a_slot('aproduct-mainImage-'.$product->slug, 'aSlideshow', array(
     'class' => 'product-image',
     'edit' => false,
     'global' => true,

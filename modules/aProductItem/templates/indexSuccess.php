@@ -3,10 +3,8 @@
 <?php // Defining the <body> class ?>
 <?php slot('a-body-class','a-product index') ?>
 
-<h1><?php echo $page ?></h1>
+<div class="product-list">
+<?php include_component('aProductItem','navigation') ?>
+</div>
 
-<ul class="product-wrapper">
-<?php foreach($products as $product): ?>
-  <li class="product"><?php include_partial('product_slot', array('product' => $product)) ?></li>
-<?php endforeach; ?>
-</ul>
+<?php a_slot('index-products', 'aSlideshow', array('width' => 390)) ?>

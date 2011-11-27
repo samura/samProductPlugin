@@ -1,0 +1,1 @@
+<?php a_slot('aproduct-mainImage-'.$product->slug, 'aSlideshow', array('global' => true)) ?>
