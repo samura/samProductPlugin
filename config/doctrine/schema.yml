@@ -1,75 +1,24 @@
-options:
-  type: INNODB
-
-aProductItem:
+# Your additional tables live here
+Product:
   actAs:
-    Timestampable: ~
-    Taggable: ~
+    Sluggable:
+      unique: true
+      fields: [title]
+      canUpdate: true      
   columns:
-    id:
-      type: integer
-      primary: true
-      autoincrement: true
-    page_id:
-      type: integer
-    title:
-      type: string(255)
-      notnull: true
-    slug:
-      type: varchar(255)
-      notnull: true
-    slug_saved:
-      type: boolean
-      default: false
-    status:
-      type: enum
-      values: [draft, pending review, published ]
-      notnull: true
-      default: draft
-    template:
-      type: string(255)
-      default: singleColumnTemplate
-    published_at:
-      type: timestamp
+    title: string(255)
+    product_category_id: integer
   relations:
-    Page:
-      class: aPage
-      local: page_id
-      foreign: id
-      onDelete: CASCADE
-      foreignAlias: BlogItem
-      foreignType: one
-    Categories:
-      foreignAlias: ProductItems
-      class: aProductCategory
-      refClass: aProductItemToProductCategory
-      local: product_item_id
-      foreign: product_category_id
-      
-      
-aProductItemToProductCategory:
+    ProductCategory: ~
+
+ProductCategory:
+  actAs:
+    Sluggable:
+      unique: true
+      fields: [title]
+      canUpdate: true
   columns:
-    product_item_id:
-      type: integer
-      primary: true
-    product_category_id:
-      type: integer
-      primary: true
+    title: string(255)
+    product_category_id: integer
   relations:
-    ProductItem:
-      foreignAlias: ProductItemCategories
-      class: aProductItem
-      local: product_item_id
-      onDelete: CASCADE
-    ProductCategory:
-      foreignAlias: ProductItemCategories
-      class: aProductCategory
-      local: product_category_id
-      onDelete: CASCADE
-
-
-aProductCategory:
-  columns:
-    title:
-      type: string(255)
-      notnull: true
+    ProductCategory: ~
