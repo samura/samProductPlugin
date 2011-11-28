@@ -7,4 +7,4 @@
 <?php include_component('aProductItem','navigation') ?>
 </div>
 
-<?php a_slot('index-products', 'aSlideshow', array('width' => 390)) ?>
+<?php a_slot('index-products', 'aSlideshow', array('width' => 410)) ?>
