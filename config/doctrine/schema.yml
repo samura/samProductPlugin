@@ -4,7 +4,9 @@ Product:
     Sluggable:
       unique: true
       fields: [title]
-      canUpdate: true      
+      canUpdate: false      
+    I18n:
+      fields: [title]
   columns:
     title: string(255)
     product_category_id: integer
@@ -16,7 +18,9 @@ ProductCategory:
     Sluggable:
       unique: true
       fields: [title]
-      canUpdate: true
+      canUpdate: false
+    I18n:
+      fields: [title]
   columns:
     title: string(255)
     product_category_id: integer
