@@ -1,1 +1,1 @@
-<?php a_slot('aproduct-mainImage-'.$product->slug, 'aSlideshow', array('global' => true)) ?>
+<?php include_component('a', 'standardArea', array('name' => 'product-body', 'toolbar' => 'main', 'slug' => $product->slug,)) ?>

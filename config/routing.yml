@@ -1,11 +1,13 @@
+#list all categories
 aProductItem_index:
   url:  /
   param: { module: aProductItem, action: index }
   class: aRoute
-  
-aProductItem_categories:
- url:  /categories
- param: { module: aProductItem, action: categories }
+
+#list all products  
+aProductItem_all:
+ url:  /all
+ param: { module: aProductItem, action: all }
  class: aRoute
  
 aProductItem_delete:
@@ -15,7 +17,7 @@ aProductItem_delete:
   class: aRoute
  
 aProductItem_show:
-  url:  /:slug
+  url:  /:slug #mudar para /:catgories/:slug
   param: { module: aProductItem, action: show }
   options: { model: Product, type: object }
   class: aDoctrineRoute
