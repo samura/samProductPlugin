@@ -1,0 +1,1 @@
+<?php echo link_to($product, 'aProductItem_show', array('slug' => $product->slug)) ?>

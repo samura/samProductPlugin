@@ -2,9 +2,10 @@
 
 <ul class="products a-ui <?php echo $category->slug ?>">
   <?php foreach($category->Product as $product): ?>  
-    <li><?php echo link_to($product, 'aProductItem_show', array('slug' => $product->slug)) ?></li>
+    <li><?php include_partial('product_title', array('product' => $product)) ?></li>
   <?php endforeach; ?>
-  <?php if($admin): ?>
+  
+  <?php if($admin): // adds new product ?>
   <li>
     <?php echo a_js_button('<span class="icon"></span>Add Product', array('a-btn','icon', 'a-add', 'add-product'), 'add-product') ?>
     <div class="add">
