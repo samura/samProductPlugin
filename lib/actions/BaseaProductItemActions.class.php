@@ -23,7 +23,7 @@ class BaseaProductItemActions extends aEngineActions
   }
   
   /**
-   * Execute 
+   * Show categories 
    *
    * @param sfWebRequest $request The request parameters
    */
@@ -32,18 +32,18 @@ class BaseaProductItemActions extends aEngineActions
   }
   
   /**
-   * Execute 
+   * Show a single product 
    *
    * @param sfWebRequest $request The request parameters
    */
   public function executeShow(sfWebRequest $request)
   {
-    $this->forward404Unless(
-      $this->product = Doctrine::getTable('Product')->findOneBySlug($request->getParameter('slug')));
+    $this->product = $this->getRoute()->getObject();
+    $this->page->slug = '/product/'.$this->product->slug;
   }
   
   /**
-   * Execute 
+   * Add a category 
    *
    * @param sfWebRequest $request The request parameters
    */
@@ -60,7 +60,7 @@ class BaseaProductItemActions extends aEngineActions
   }
   
   /**
-   * Execute 
+   * Add a product
    *
    * @param sfWebRequest $request The request parameters
    */
@@ -78,5 +78,68 @@ class BaseaProductItemActions extends aEngineActions
     $product->save();
     
     $this->redirect($request->getReferer());
+  }
+  
+  /**
+   * Execute delete category or product
+   *
+   * @param sfWebRequest $request The request parameters
+   */
+  public function executeDelete(sfWebRequest $request)
+  {
+    $request->checkCSRFProtection();
+    
+    switch($request->getParameter('type'))
+    {
+      case 'category':
+        $this->deleteCategory($request->getParameter('slug'));
+        break;
+      case 'product':
+        $this->deleteProduct($request->getParameter('slug'));
+        break;
+      default:
+        $this->forward404();
+    }
+    
+    $this->redirect($this->getRequest()->getReferer());
+  }
+  
+  /*
+   * tests if can delete a ProductCategory and deletes it
+   * param string $slug The ProductCategory slug
+   */
+  protected function deleteCategory($slug)
+  {
+    $this->forward404Unless(
+      $category = Doctrine::getTable('ProductCategory')->findOneBySlug($slug));
+      
+    // test if has products or other categories in it
+    if(sizeof($category->Product) || sizeof($category->ChildProductCategory))
+      return $this->getUser()->setFlash('error', 'You can only delete empty categories');
+
+    // TODO: delete every slot used by the category (if any)
+  
+    $category->delete();
+    
+    return $this->getUser()->setFlash('message', 'Category successfully deleted.');
+  }
+  
+  /*
+   * deletes a product and all the slots in it
+   * param string $slug The Product slug
+   */
+  protected function deleteProduct($slug)
+  {
+    $this->forward404Unless(
+      $product = Doctrine::getTable('Product')->findOneBySlug($slug));
+      
+    // delete every slot used by the product
+    $page = aPageTable::retrieveBySlugWithSlots('/product/'.$product->slug);
+    if($page)
+      $page->delete();
+    
+    $product->delete();
+    
+    return $this->getUser()->setFlash('message', 'Product successfully deleted.');
   }
 }

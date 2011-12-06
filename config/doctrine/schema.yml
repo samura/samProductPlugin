@@ -25,4 +25,8 @@ ProductCategory:
     title: string(255)
     product_category_id: integer
   relations:
-    ProductCategory: ~
+    ParentProductCategory:
+      local: product_category_id
+      foreign: id
+      class: ProductCategory
+      foreignAlias: ChildProductCategory

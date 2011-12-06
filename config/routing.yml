@@ -8,10 +8,17 @@ aProductItem_categories:
  param: { module: aProductItem, action: categories }
  class: aRoute
  
+aProductItem_delete:
+  url: /delete/:type # category or product
+  param: { module: aProductItem, action: delete }
+  sf_method: [ DELETE ]
+  class: aRoute
+ 
 aProductItem_show:
   url:  /:slug
   param: { module: aProductItem, action: show }
-  class: aRoute
+  options: { model: Product, type: object }
+  class: aDoctrineRoute
   
 aProductItem_category_add:
   url:  /admin/product_category_add
