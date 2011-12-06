@@ -17,6 +17,10 @@ class BaseaProductItemActions extends aEngineActions
    */
   public function executeIndex(sfWebRequest $request)
   {
+    $this->categories = Doctrine::getTable('ProductCategory')
+      ->createQuery()
+      ->execute();
+
     $this->products = Doctrine::getTable('Product')
       ->createQuery()
       ->execute();
@@ -27,8 +31,11 @@ class BaseaProductItemActions extends aEngineActions
    *
    * @param sfWebRequest $request The request parameters
    */
-  public function executeCategories(sfWebRequest $request)
+  public function executeAll(sfWebRequest $request)
   {
+    $this->products = Doctrine::getTable('Product')
+      ->createQuery()
+      ->execute();
   }
   
   /**

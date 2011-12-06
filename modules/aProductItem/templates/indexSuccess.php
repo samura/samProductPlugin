@@ -6,5 +6,3 @@
 <div class="product-list">
 <?php include_component('aProductItem','navigation') ?>
 </div>
-
-<?php a_slot('index-products', 'aSlideshow', array('width' => 410)) ?>
