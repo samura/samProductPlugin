@@ -156,12 +156,13 @@ class BaseaProductItemActions extends aEngineActions
    */
   protected function setPageByProduct($product)
   {
-    $newPage = aPageTable::retrieveBySlugWithSlots($this->page->slug.'/'.$product->slug);
+  	$slug = 'product-'.$product->slug;
+    $newPage = aPageTable::retrieveBySlugWithSlots($slug);
     if(!$newPage)
     {
       $newPage = new aPage();
       $newPage->getNode()->insertAsFirstChildOf($this->page);
-      $newPage->slug = $this->page->slug.'/'.$product->slug;
+      $newPage->slug = $slug;
       $newPage->save();
     }
     aTools::setCurrentPage($newPage);

@@ -23,7 +23,7 @@
 </ul>
 </div>
 
-<?php //include_component('aProductItem','navigation') ?>
+<?php include_component('aProductItem','navigation') ?>
 
 
 
