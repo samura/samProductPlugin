@@ -27,6 +27,15 @@ class BaseaProductItemActions extends aEngineActions
    *
    * @param sfWebRequest $request The request parameters
    */
+  public function executeCategories(sfWebRequest $request)
+  {
+  }
+  
+  /**
+   * Execute 
+   *
+   * @param sfWebRequest $request The request parameters
+   */
   public function executeShow(sfWebRequest $request)
   {
     $this->forward404Unless(

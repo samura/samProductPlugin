@@ -3,6 +3,11 @@ aProductItem_index:
   param: { module: aProductItem, action: index }
   class: aRoute
   
+aProductItem_categories:
+ url:  /categories
+ param: { module: aProductItem, action: categories }
+ class: aRoute
+ 
 aProductItem_show:
   url:  /:slug
   param: { module: aProductItem, action: show }
