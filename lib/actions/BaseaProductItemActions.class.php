@@ -46,7 +46,7 @@ class BaseaProductItemActions extends aEngineActions
   public function executeShow(sfWebRequest $request)
   {
     $this->product = $this->getRoute()->getObject();
-    $this->page->slug = '/product/'.$this->product->slug;
+    $this->setPageByProduct($this->product);
   }
   
   /**
@@ -141,12 +141,29 @@ class BaseaProductItemActions extends aEngineActions
       $product = Doctrine::getTable('Product')->findOneBySlug($slug));
       
     // delete every slot used by the product
-    $page = aPageTable::retrieveBySlugWithSlots('/product/'.$product->slug);
+    $page = aPageTable::retrieveBySlugWithSlots($this->page->slug.'/'.$product->slug);
     if($page)
       $page->delete();
     
     $product->delete();
     
     return $this->getUser()->setFlash('message', 'Product successfully deleted.');
+  }
+  
+  /*
+   * gets or creates a new aPage for the product given
+   * param Product $product 
+   */
+  protected function setPageByProduct($product)
+  {
+    $newPage = aPageTable::retrieveBySlugWithSlots($this->page->slug.'/'.$product->slug);
+    if(!$newPage)
+    {
+      $newPage = new aPage();
+      $newPage->getNode()->insertAsFirstChildOf($this->page);
+      $newPage->slug = $this->page->slug.'/'.$product->slug;
+      $newPage->save();
+    }
+    aTools::setCurrentPage($newPage);
   }
 }
