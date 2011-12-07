@@ -41,6 +41,18 @@ class BaseaProductItemActions extends aEngineActions
   }
   
   /**
+  * Show a single product
+  *
+  * @param sfWebRequest $request The request parameters
+  */
+  public function executeCategory(sfWebRequest $request)
+  {
+  	$this->category = $this->getRoute()->getObject();
+  	
+  	$this->setPageBy($this->category, sfConfig::get('app_samProduct_prefixCategory'));
+  }
+  
+  /**
    * Show a single product 
    *
    * @param sfWebRequest $request The request parameters
@@ -53,7 +65,7 @@ class BaseaProductItemActions extends aEngineActions
       ->where('c.slug = ?', $request->getParameter('cat'))
       ->andWhere('p.slug = ?', $request->getParameter('slug'))
       ->fetchOne();
-    $this->setPageByProduct($this->product);
+    $this->setPageBy($this->product, sfConfig::get('app_samProduct_prefixProduct'));
   }
   
   /**
@@ -180,13 +192,14 @@ class BaseaProductItemActions extends aEngineActions
     return $this->getUser()->setFlash('message', 'Product successfully deleted.');
   }
   
+
   /*
    * gets or creates a new aPage for the product given
    * param Product $product 
    */
-  protected function setPageByProduct($product)
+  protected function setPageBy($item, $perfix)
   { 
-  	$slug = sfConfig::get('app_samProduct_prefix').$product->slug;
+  	$slug = $perfix.$item->slug;
     $newPage = aPageTable::retrieveBySlugWithSlots($slug);
     if(!$newPage)
     {
@@ -197,4 +210,5 @@ class BaseaProductItemActions extends aEngineActions
     }
     aTools::setCurrentPage($newPage);
   }
+  
 }

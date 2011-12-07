@@ -35,9 +35,15 @@ aProductItem_product_add:
   url:  /admin/product_add
   param: { module: aProductItem, action: addProduct }
   class: aRoute
+  
+aProductItem_category:
+  url:  /:slug
+  param: { module: aProductItem, action: category }
+  options: { model: ProductCategory, type: object }
+  class: aDoctrineRoute
 
 aProductItem_show:
-  url:  /:cat/:slug #mudar para /:catgories/:slug
+  url:  /:cat/:slug
   param: { module: aProductItem, action: show }
   class: aRoute
   #options: { model: Product, type: object }
