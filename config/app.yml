@@ -1,0 +1,3 @@
+all:
+  samProduct:
+    prefix: product- # slug prefix for every area/slot

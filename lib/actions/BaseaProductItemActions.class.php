@@ -137,7 +137,7 @@ class BaseaProductItemActions extends aEngineActions
       $product = Doctrine::getTable('Product')->findOneBySlug($slug));
       
     // delete every slot used by the product
-    $page = aPageTable::retrieveBySlugWithSlots($this->page->slug.'/'.$product->slug);
+    $page = aPageTable::retrieveBySlugWithSlots(sfConfig::get('app_samProduct_prefix').$product->slug);
     if($page)
       $page->delete();
     
@@ -151,8 +151,8 @@ class BaseaProductItemActions extends aEngineActions
    * param Product $product 
    */
   protected function setPageByProduct($product)
-  {
-  	$slug = 'product-'.$product->slug;
+  { 
+  	$slug = sfConfig::get('app_samProduct_prefix').$product->slug;
     $newPage = aPageTable::retrieveBySlugWithSlots($slug);
     if(!$newPage)
     {
