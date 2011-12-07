@@ -108,7 +108,7 @@ class BaseaProductItemActions extends aEngineActions
         $this->forward404();
     }
     
-    $this->redirect($this->getRequest()->getReferer());
+    $this->redirect('aProductItem_index');
   }
   
   /*
