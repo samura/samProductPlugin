@@ -2,7 +2,7 @@
 
 <ul class="products a-ui <?php echo $category->slug ?>">
   <?php foreach($category->Product as $product): ?>  
-    <li><?php include_partial('product_title', array('product' => $product)) ?></li>
+    <li><?php include_partial('product_title', array('admin' => $admin, 'product' => $product)) ?></li>
   <?php endforeach; ?>
   
   <?php if($admin): // adds new product ?>

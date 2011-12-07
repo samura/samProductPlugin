@@ -19,7 +19,7 @@
 
 <ul class="categories a-ui">
 <?php foreach($categories as $category): ?>
-  <li class="<?php echo $category->slug ?>"><?php include_partial('category_title', array('category' => $category)) ?></li>
+  <li class="<?php echo $category->slug ?>"><?php include_partial('category_title', array('admin' => $admin, 'category' => $category)) ?></li>
 <?php endforeach; ?>
 </ul>
 </div>

@@ -1,6 +1,6 @@
 <ul class="categories a-ui">
 <?php foreach($product_categories as $category): ?>
-  <li class="<?php echo $category->slug ?>"><?php include_partial('category_title', array('category' => $category)) ?></li>
+  <li class="<?php echo $category->slug ?>"><?php include_partial('category_title', array('admin' => $admin, 'category' => $category)) ?></li>
 <?php endforeach; ?>
 
   <?php if($admin):  // adds new category ?>
