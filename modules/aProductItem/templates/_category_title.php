@@ -1,5 +1,5 @@
 <?php echo $category ?>
-<div class="actions">
+<div class="actions a-ui">
   <?php echo a_js_button('Edit', array('icon','no-label', 'a-edit')) ?>
   <?php echo link_to(
     '<span class="icon"></span>', 

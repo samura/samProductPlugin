@@ -3,6 +3,8 @@
 <?php // Defining the <body> class ?>
 <?php slot('a-body-class','a-product show') ?>
 
-<h1><?php echo $product ?></h1>
+<div class="product-header">
+  <?php include_partial('product_title', array('product' => $product, 'tag' => array('name' => 'h1'))) ?>
+</div>
 
 <?php include_partial('product', array('product' => $product)) ?>

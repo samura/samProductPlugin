@@ -1,5 +1,9 @@
-<?php echo link_to($product, 'aProductItem_show', array('slug' => $product->slug)) ?>
-<div class="actions">
+<?php $tag = (isset($tag)) ? $tag : array('name' => 'span') ?>
+
+<<?php echo $tag['name'] ?> class="<?php if(isset($tag['class'])) echo $tag['class'] ?>">
+  <?php echo link_to($product, 'aProductItem_show', array('slug' => $product->slug)) ?>
+</<?php echo $tag['name'] ?>>
+<div class="actions a-ui">
   <?php echo a_js_button('Edit', array('icon','no-label', 'a-edit')) ?>
   <?php echo link_to(
     '<span class="icon"></span>', 
