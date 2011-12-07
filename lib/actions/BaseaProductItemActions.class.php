@@ -10,6 +10,12 @@
  */
 class BaseaProductItemActions extends aEngineActions
 {
+  public function preExecute()
+  {
+    $this->getResponse()->addJavascript('/samProductPlugin/js/samProduct.js');
+    parent::preExecute();
+  }
+
   /**
    * Execute 
    *
@@ -110,6 +116,29 @@ class BaseaProductItemActions extends aEngineActions
     }
     
     $this->redirect('aProductItem_index');
+  }
+  
+  /**
+   * Shows form or submit 
+   *
+   * @param sfWebRequest $request The request parameters
+   */
+  public function executeEditCategory(sfWebRequest $request)
+  {
+    if($request->getMethod() == sfRequest::POST)
+    {
+      $category = Doctrine::getTable('ProductCategory')->find($request['product_category']['id']);
+      $form = new ProductCategoryForm($category);
+      $form->bind($request->getParameter('product_category'));
+      if($form->isValid())
+        $form->save();
+      else
+        $this->getUser()-setFlash('error', 'The category name you entered is not valid.');
+      
+      $this->redirect('aProductItem_index');  
+    }
+    $category = Doctrine::getTable('ProductCategory')->findOneBySlug($request->getParameter('slug'));
+    $this->form = new ProductCategoryForm($category);
   }
   
   /*

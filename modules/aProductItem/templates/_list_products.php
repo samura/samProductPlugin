@@ -15,17 +15,3 @@
     <li><?php include_partial('product_title', array('product' => $product, 'admin' => $admin)) ?></li>
   <?php endforeach; ?>
 </ul>
-
-<?php javascript_tag() ?>
-$('.add').hide();
-
-$('.add-product').click(function(event){
-  $(this).hide();
-  $(this).next().show();
-  event.preventDefault();
-});
-
-$('.save-product').click(function(){
-  $(this).parent().submit();
-});
-<?php end_javascript_tag() ?>

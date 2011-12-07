@@ -22,21 +22,3 @@
   <li class="<?php echo $category->slug ?>"><?php include_partial('category_title', array('admin' => $admin, 'category' => $category)) ?></li>
 <?php endforeach; ?>
 </ul>
-</div>
-
-<?php //include_partial('navigation', array('product_categories' => $categories, 'admin' => $admin)) ?>
-
-
-<?php javascript_tag() ?>
-$('.add').hide();
-
-$('.add-product-category').click(function(event){
-  $(this).hide();
-  $(this).next().show();
-  event.preventDefault();
-});
-
-$('.save-product-category').click(function(){
-  $(this).parent().submit();
-});
-<?php end_javascript_tag() ?>

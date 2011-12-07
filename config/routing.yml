@@ -16,6 +16,16 @@ aProductItem_delete:
   sf_method: [ DELETE ]
   class: aRoute
   
+aProductItem_editCategory:
+  url: /samProduct/editCategory
+  param: { module: aProductItem, action: editCategory }
+  class: aRoute
+
+aProductItem_editProduct:
+  url: /samProduct/editProduct
+  param: { module: aProductItem, action: editProduct }
+  class: aRoute
+  
 aProductItem_category_add:
   url:  /admin/product_category_add
   param: { module: aProductItem, action: addProductCategory }

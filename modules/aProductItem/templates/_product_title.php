@@ -6,7 +6,7 @@
 
 <?php if($admin): ?>
 <div class="actions a-ui">
-  <?php echo a_js_button('Edit', array('icon','no-label', 'a-edit')) ?>
+  <?php echo a_js_button('Edit', array('icon','no-label', 'a-edit', 'edit-product')) ?>
   <?php echo link_to(
     '<span class="icon"></span>', 
     'aProductItem_delete', 
