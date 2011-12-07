@@ -4,9 +4,6 @@
 <?php // Defining the <body> class ?>
 <?php slot('a-body-class','a-product index') ?>
 
-<?php // Default banner ?>
-<?php include_partial('a/banner') ?>
-
 <?php if($admin):  // adds new category ?>
     <?php echo a_js_button('<span class="icon"></span>Add Category', array('a-btn','icon', 'a-add', 'add-product-category')) ?>
     <div class="add">
