@@ -17,10 +17,12 @@ aProductItem_delete:
   class: aRoute
  
 aProductItem_show:
-  url:  /:slug #mudar para /:catgories/:slug
+  url:  /:cat/:slug #mudar para /:catgories/:slug
   param: { module: aProductItem, action: show }
-  options: { model: Product, type: object }
-  class: aDoctrineRoute
+  class: aRoute
+  #options: { model: Product, type: object }
+  #class: aDoctrineRoute
+
   
 aProductItem_category_add:
   url:  /admin/product_category_add

@@ -41,7 +41,9 @@ class BaseaProductItemActions extends aEngineActions
    */
   public function executeShow(sfWebRequest $request)
   {
-    $this->product = $this->getRoute()->getObject();
+    //$this->product = $this->getRoute()->getObject();
+    $this->product = Doctrine::getTable('Product')->createQuery('p')->leftJoin('p.ProductCategory c')->where('c.slug = ?', $request->getParameter('cat'))->andWhere('p.slug = ?', $request->getParameter('slug'))->execute();
+    $request->getParameter('cat');
     $this->setPageByProduct($this->product);
   }
   
