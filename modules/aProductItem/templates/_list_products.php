@@ -12,7 +12,7 @@
 
 <ul class="products a-ui <?php echo isset($category) ? $category->slug : 'all' ?>">
   <?php foreach($products as $product): ?>  
-    <li><?php include_partial('product_title', array('product' => $product)) ?></li>
+    <li><?php include_partial('product_title', array('product' => $product, 'admin' => $admin)) ?></li>
   <?php endforeach; ?>
 </ul>
 
