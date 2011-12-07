@@ -22,7 +22,6 @@
   <li class="<?php echo $category->slug ?>"><?php include_partial('category_title', array('admin' => $admin, 'category' => $category)) ?></li>
 <?php endforeach; ?>
 </ul>
-</div>
 
 <?php //include_partial('navigation', array('product_categories' => $categories, 'admin' => $admin)) ?>
 
