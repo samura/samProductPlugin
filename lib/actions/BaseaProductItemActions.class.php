@@ -20,10 +20,6 @@ class BaseaProductItemActions extends aEngineActions
     $this->categories = Doctrine::getTable('ProductCategory')
       ->createQuery()
       ->execute();
-
-    $this->products = Doctrine::getTable('Product')
-      ->createQuery()
-      ->execute();
   }
   
   /**
