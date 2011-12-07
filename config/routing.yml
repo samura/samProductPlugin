@@ -15,14 +15,6 @@ aProductItem_delete:
   param: { module: aProductItem, action: delete }
   sf_method: [ DELETE ]
   class: aRoute
- 
-aProductItem_show:
-  url:  /:cat/:slug #mudar para /:catgories/:slug
-  param: { module: aProductItem, action: show }
-  class: aRoute
-  #options: { model: Product, type: object }
-  #class: aDoctrineRoute
-
   
 aProductItem_category_add:
   url:  /admin/product_category_add
@@ -33,3 +25,10 @@ aProductItem_product_add:
   url:  /admin/product_add
   param: { module: aProductItem, action: addProduct }
   class: aRoute
+
+aProductItem_show:
+  url:  /:cat/:slug #mudar para /:catgories/:slug
+  param: { module: aProductItem, action: show }
+  class: aRoute
+  #options: { model: Product, type: object }
+  #class: aDoctrineRoute
