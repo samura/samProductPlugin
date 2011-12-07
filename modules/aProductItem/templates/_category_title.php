@@ -1,4 +1,8 @@
-<span><?php echo $category ?></span>
+<?php $tag = (isset($tag)) ? $tag : array('name' => 'span') ?>
+
+<<?php echo $tag['name'] ?> class="<?php if(isset($tag['class'])) echo $tag['class'] ?>">
+  <?php echo link_to($category, 'aProductItem_category', array('slug' => $category->slug)) ?>
+</<?php echo $tag['name'] ?>>
 
 <?php if($admin): ?>
 <div class="actions a-ui">

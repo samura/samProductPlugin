@@ -8,17 +8,19 @@
 <?php include_partial('messages') ?>
 
 <?php if($admin):  // adds new category ?>
-    <?php echo a_js_button('<span class="icon"></span>Add Category', array('a-btn','icon', 'a-add', 'add-product-category')) ?>
+<div class="actions a-ui">
+    <?php echo a_js_button('<span class="icon"></span>'.__('Add Category'), array('a-btn','icon', 'big', 'a-add', 'add-product-category')) ?>
     <div class="add">
       <?php echo form_tag('aProductItem_category_add') ?>
       <input type="text" name="category">
-      <?php echo a_js_button('Save', array('a-btn','a-save', 'save-product-category')) ?>
+      <?php echo a_js_button(__('Save'), array('a-btn','a-save', 'save-product-category')) ?>
       </form>
     </div>
  <?php endif ?>
+</div>
 
 <ul class="categories a-ui">
 <?php foreach($categories as $category): ?>
-  <li class="<?php echo $category->slug ?>"><?php include_partial('category_title', array('admin' => $admin, 'category' => $category)) ?></li>
+  <li class="<?php echo $category->slug ?>"><?php include_partial('category_title', array('admin' => $admin, 'category' => $category, 'tag' => 'p')) ?></li>
 <?php endforeach; ?>
 </ul>
