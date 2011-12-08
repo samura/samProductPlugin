@@ -5,7 +5,7 @@
 <?php slot('a-body-class','a-product show') ?>
 
 <?php include_partial('breadcrumb', array('page' => $page, 'product' => $product, 'category' => $product->ProductCategory)) ?>
-<?php include_partial('subnav') ?>
+<?php include_component('aProductItem', 'subnav') ?>
 
 <div class="product-header">
   <?php include_partial('product_title', array('admin' => $admin, 'product' => $product, 'tag' => array('name' => 'h1'))) ?>

@@ -5,6 +5,6 @@
 <?php slot('a-body-class','a-product all') ?>
 
 <?php include_partial('breadcrumb', array('page' => $page)) ?>
-<?php include_partial('subnav') ?>
+<?php include_component('aProductItem', 'subnav') ?>
 
 <?php include_partial('list_products', array('admin' => $admin, 'products' => $products)) ?>
