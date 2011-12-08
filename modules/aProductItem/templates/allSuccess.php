@@ -4,4 +4,7 @@
 <?php // Defining the <body> class ?>
 <?php slot('a-body-class','a-product all') ?>
 
+<?php include_partial('breadcrumb') ?>
+<?php include_partial('subnav') ?>
+
 <?php include_partial('list_products', array('admin' => $admin, 'products' => $products)) ?>

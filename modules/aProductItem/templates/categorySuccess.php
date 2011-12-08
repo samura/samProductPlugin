@@ -3,6 +3,8 @@
 
 <?php // Defining the <body> class ?>
 <?php slot('a-body-class','a-product category') ?>
+<?php include_partial('breadcrumb') ?>
+<?php include_partial('subnav') ?>
 
 <div class="category-header">
   <?php include_partial('category_title', array('admin' => $admin, 'category' => $category, 'tag' => array('name' => 'h1'))) ?>
