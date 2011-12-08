@@ -153,6 +153,29 @@ class BaseaProductItemActions extends aEngineActions
     $this->form = new ProductCategoryForm($category);
   }
   
+  /**
+   * Shows form or submit 
+   *
+   * @param sfWebRequest $request The request parameters
+   */
+  public function executeEditProduct(sfWebRequest $request)
+  {
+    if($request->getMethod() == sfRequest::POST)
+    {
+      $product = Doctrine::getTable('Product')->find($request['product']['id']);
+      $form = new ProductForm($product);
+      $form->bind($request->getParameter('product'));
+      if($form->isValid())
+        $form->save();
+      else
+        $this->getUser()-setFlash('error', 'The product name you entered is not valid.');
+      
+      $this->redirect('aProductItem_index');  
+    }
+    $product = Doctrine::getTable('Product')->findOneBySlug($request->getParameter('slug'));
+    $this->form = new ProductForm($product);
+  }
+  
   /*
    * tests if can delete a ProductCategory and deletes it
    * param string $slug The ProductCategory slug

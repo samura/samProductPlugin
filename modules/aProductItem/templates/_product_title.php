@@ -6,6 +6,9 @@
 
 <?php if($admin): ?>
 <div class="actions a-ui">
+  <input type="hidden" name="slug" value="<?php echo $product->slug ?>">
+  <input type="hidden" name="url" value="<?php echo url_for('aProductItem_editProduct') ?>">
+
   <?php echo a_js_button('Edit', array('icon','no-label', 'a-edit', 'edit-product')) ?>
   <?php echo link_to(
     '<span class="icon"></span>', 

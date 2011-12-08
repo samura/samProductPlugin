@@ -10,4 +10,12 @@
  */
 abstract class PluginProductForm extends BaseProductForm
 {
+  public function setup()
+  {
+    parent::setup();
+    
+    unset($this['product_category_id'], $this['slug']);
+    
+    $this->embedi18n(array(sfContext::getInstance()->getUser()->getCulture()));
+  }
 }
