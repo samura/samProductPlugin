@@ -4,7 +4,7 @@
 <?php // Defining the <body> class ?>
 <?php slot('a-body-class','a-product show') ?>
 
-<?php include_partial('breadcrumb') ?>
+<?php include_partial('breadcrumb', array('page' => $page, 'product' => $product, 'category' => $product->ProductCategory)) ?>
 <?php include_partial('subnav') ?>
 
 <div class="product-header">

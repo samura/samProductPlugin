@@ -1,4 +1,4 @@
 all:
   samProduct:
     prefixProduct: product- # slug prefix for every product area/slot
-    prefixCategory: category - # slug prefix for every category area/slot
+    prefixCategory: category- # slug prefix for every category area/slot

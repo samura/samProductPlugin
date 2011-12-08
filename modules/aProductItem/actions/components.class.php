@@ -10,8 +10,10 @@
  */
 class aProductItemComponents extends sfComponents
 {
-  public function executeNavigation(sfWebRequest $request)
+  public function executeSubnav(sfWebRequest $request)
   {
     $this->product_categories = Doctrine::getTable('ProductCategory')->createQuery()->execute();
   }
+  
+  
 }

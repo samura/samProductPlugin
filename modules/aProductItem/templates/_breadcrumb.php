@@ -1,21 +1,35 @@
+<?php slot('a-breadcrumb') ?>
 <?php
   // Compatible with sf_escaping_strategy: true
-  $active = isset($active) ? $sf_data->getRaw('active') : null;
-  $class = isset($class) ? $sf_data->getRaw('class') : null;
-  $draggable = isset($draggable) ? $sf_data->getRaw('draggable') : null;
-  $name = isset($name) ? $sf_data->getRaw('name') : null;
-  $nav = isset($nav) ? $sf_data->getRaw('nav') : null;
-  $separator = isset($separator) ? $sf_data->getRaw('separator') : null;
+  $page = isset($active) ? $sf_data->getRaw('page') : aTools::getCurrentPage();
+  $active = isset($active) ? $sf_data->getRaw('active') : $page->slug;
+  $class = isset($class) ? $sf_data->getRaw('class') : 'a-nav-item';
+  $name = isset($name) ? $sf_data->getRaw('name') : 'component';
+  $separator = isset($separator) ? $sf_data->getRaw('separator') : ' / ';
+  $nav = $page->getAncestorsInfo(true);
 ?>
-<?php echo aTools::getCurrentNonAdminPage() ?>
-<?php echo aTools::getCurrentPage() ?>
-<?php echo aPageTable::retrieveBySlug(aTools::getCurrentPage()->slug) ?>
+
 <ul id="a-breadcrumb-<?php echo ($name)? $name:'component' ?>" class="a-nav a-nav-breadcrumb a-nav-<?php echo ($name)? $name:'component' ?> a-breadcrumb-<?php echo ($name)? $name:'component' ?> breadcrumb clearfix">
-	<?php /*foreach($nav as $pos => $item): ?>
-		<?php if (!$item['archived'] || $draggable): ?>
-			<li class="<?php echo $class;
-				if($item['slug'] == $active) echo ' a-current-page'; ?>"><?php echo link_to($item['title'], aTools::urlForPage($item['slug'])) ?><?php if($pos+1 < count($nav)) echo '<span class="a-breadcrumb-separator">'.$separator.'</span>' ?>
+	<?php foreach($nav as $pos => $item): //nodes until the root of the engine?>
+		<?php if (!$item['archived']): ?>
+			<li class="<?php echo $class; if($item['slug'] == $active) echo ' a-current-page'; ?>">
+				<?php echo link_to($item['title'], aTools::urlForPage($item['slug'])) ?>
+				<?php if(isset($category) || isset($product) || $pos+1 < count($nav)) echo '<span class="a-breadcrumb-separator">'.$separator.'</span>'; ?>
 			</li>
 		<?php endif ?>		
-	<?php endforeach */?>
+	<?php endforeach ?>
+	
+	<?php if(isset($category)):?>
+	  <li class="<?php echo $class; if(!isset($product)) echo ' a-current-page'; ?>">
+		<?php echo link_to($category, 'aProductItem_category', array('slug' => $category->slug)) ?>
+		<?php if(isset($product)) echo '<span class="a-breadcrumb-separator">'.$separator.'</span>'; ?>
+	  </li>
+	<?php endif ?>
+
+	<?php if(isset($product)):?>
+	<li class="<?php echo $class ?> a-current-page">
+		<?php echo link_to($product, 'aProductItem_show', array('slug' => $product->slug, 'cat' => $product->ProductCategory->slug)) ?>
+	</li>
+	<?php endif ?>
 </ul>
+<?php end_slot()?>

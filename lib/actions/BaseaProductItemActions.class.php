@@ -217,8 +217,9 @@ class BaseaProductItemActions extends aEngineActions
   
 
   /*
-   * gets or creates a new aPage for the product given
-   * param Product $product 
+   * gets or creates a new aPage for the product or category given
+   * param Product/Category $item
+   * param $perfix 
    */
   protected function setPageBy($item, $perfix)
   { 
@@ -229,6 +230,7 @@ class BaseaProductItemActions extends aEngineActions
       $newPage = new aPage();
       $newPage->getNode()->insertAsFirstChildOf($this->page);
       $newPage->slug = $slug;
+      //TODO por titulo $newPage->setTitle($item);
       $newPage->save();
     }
     aTools::setCurrentPage($newPage);
