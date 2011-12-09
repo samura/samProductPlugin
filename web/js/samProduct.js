@@ -16,11 +16,11 @@ $(function(){
   $('.edit-product-category, .edit-product').click(function(event){
 	event.preventDefault();
 	// get the form
-    var $wrap = $(this).parents('li');
+    var $wrap = $(this).parents('.product-category-title, .product-title');
     
     $wrap.children().hide();
     
-    $wrap.prepend('<div class="edit-product-wrapper"><img src="/apostrophePlugin/images/a-icon-loader.gif"></div>');
+    $wrap.prepend('<div class="edit-product-wrapper a-ui"><img src="/apostrophePlugin/images/a-icon-loader.gif"></div>');
     
     $('.edit-product-wrapper', $wrap).load(
       $('input[name=url]', $wrap).val(), 

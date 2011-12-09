@@ -92,7 +92,7 @@ class BaseaProductItemActions extends aEngineActions
     $category->title = $request->getParameter('category');
     $category->save();
     
-    $this->redirect($request->getReferer());
+    $this->redirect('aProductItem_category', array('slug' => $category->slug));
   }
   
   /**
@@ -113,32 +113,9 @@ class BaseaProductItemActions extends aEngineActions
     
     $product->save();
     
-    $this->redirect($request->getReferer());
+    $this->redirect('aProductItem_show', array('slug' => $product->slug, 'cat' => $category->slug));
   }
-  
-  /**
-   * Execute delete category or product
-   *
-   * @param sfWebRequest $request The request parameters
-   */
-  public function executeDelete(sfWebRequest $request)
-  {
-    $request->checkCSRFProtection();
-    
-    switch($request->getParameter('type'))
-    {
-      case 'category':
-        $this->deleteCategory($request->getParameter('slug'));
-        break;
-      case 'product':
-        $this->deleteProduct($request->getParameter('slug'));
-        break;
-      default:
-        $this->forward404();
-    }
-    
-    $this->redirect('aProductItem_index');
-  }
+ 
   
   /**
    * Shows form or submit 
@@ -147,20 +124,20 @@ class BaseaProductItemActions extends aEngineActions
    */
   public function executeEditCategory(sfWebRequest $request)
   {
-    if($request->getMethod() == sfRequest::POST)
-    {
-      $category = Doctrine::getTable('ProductCategory')->find($request['product_category']['id']);
-      $form = new ProductCategoryForm($category);
-      $form->bind($request->getParameter('product_category'));
-      if($form->isValid())
-        $form->save();
-      else
-        $this->getUser()-setFlash('error', 'The category name you entered is not valid.');
-      
-      $this->redirect('aProductItem_index');  
-    }
-    $category = Doctrine::getTable('ProductCategory')->findOneBySlug($request->getParameter('slug'));
-    $this->form = new ProductCategoryForm($category);
+  	if($request->getMethod() == sfRequest::POST)
+  	{
+  		$category = Doctrine::getTable('ProductCategory')->find($request['product_category']['id']);
+  		$form = new ProductCategoryForm($category);
+  		$form->bind($request->getParameter('product_category'));
+  		if($form->isValid())
+  		$form->save();
+  		else
+  		$this->getUser()-setFlash('error', 'The category name you entered is not valid.');
+  
+  		$this->redirect($request->getReferer());
+  	}
+  	$category = Doctrine::getTable('ProductCategory')->findOneBySlug($request->getParameter('slug'));
+  	$this->form = new ProductCategoryForm($category);
   }
   
   /**
@@ -180,10 +157,32 @@ class BaseaProductItemActions extends aEngineActions
       else
         $this->getUser()-setFlash('error', 'The product name you entered is not valid.');
       
-      $this->redirect('aProductItem_index');  
+      $this->redirect($request->getReferer());  
     }
     $product = Doctrine::getTable('Product')->findOneBySlug($request->getParameter('slug'));
     $this->form = new ProductForm($product);
+  }
+  
+  /**
+  * Execute delete category or product
+  *
+  * @param sfWebRequest $request The request parameters
+  */
+  public function executeDelete(sfWebRequest $request)
+  {
+  	$request->checkCSRFProtection();
+  
+  	switch($request->getParameter('type'))
+  	{
+  		case 'category':
+  			$this->deleteCategory($request->getParameter('slug'));	
+  			break;
+  		case 'product':
+  			$this->deleteProduct($request->getParameter('slug'));
+  			break;
+  		default:
+  			$this->forward404();
+  	}
   }
   
   /*
@@ -196,14 +195,17 @@ class BaseaProductItemActions extends aEngineActions
       $category = Doctrine::getTable('ProductCategory')->findOneBySlug($slug));
       
     // test if has products or other categories in it
-    if(sizeof($category->Product) || sizeof($category->ChildProductCategory))
-      return $this->getUser()->setFlash('error', 'You can only delete empty categories');
+    if(sizeof($category->Product) || sizeof($category->ChildProductCategory)) {
+      $this->getUser()->setFlash('error', 'You can only delete empty categories');
+      $this->redirect($request->getReferer());
+    }
 
     // TODO: delete every slot used by the category (if any)
   
     $category->delete();
     
-    return $this->getUser()->setFlash('message', 'Category successfully deleted.');
+    $this->getUser()->setFlash('message', 'Category successfully deleted.');
+    $this->redirect('aProductItem_index');
   }
   
   /*
@@ -222,7 +224,8 @@ class BaseaProductItemActions extends aEngineActions
     
     $product->delete();
     
-    return $this->getUser()->setFlash('message', 'Product successfully deleted.');
+    $this->getUser()->setFlash('message', 'Product successfully deleted.');
+    $this->redirect('aProductItem_category', array('slug' => $product->ProductCategory->slug));
   }
   
 
