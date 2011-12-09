@@ -7,4 +7,4 @@
 <?php include_partial('breadcrumb', array('page' => $page)) ?>
 <?php include_component('aProductItem', 'subnav') ?>
 
-<?php include_partial('list_products', array('admin' => $admin, 'products' => $products)) ?>
+<?php include_partial('list_products', array('pager' => $pager, 'admin' => $admin, 'max_per_page' => $max_per_page)) ?>

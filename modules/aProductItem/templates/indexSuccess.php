@@ -21,8 +21,18 @@
  <?php endif ?>
 </div>
 
+
+ 
 <ul class="categories a-ui">
-<?php foreach($categories as $category): ?>
-  <li class="<?php echo $category->slug ?>"><?php include_partial('category_title', array('admin' => $admin, 'category' => $category, 'tag' => 'p')) ?></li>
-<?php endforeach; ?>
+  <?php if ($pager->haveToPaginate()): ?>
+  	<?php include_partial('aProductItem/pager', array('max_per_page' => $max_per_page, 'pager' => $pager, 'pagerUrl' => url_for('aProductItem/index?'))) ?>
+  <?php endif ?>
+
+  <?php foreach ($pager->getResults() as $category): ?>
+  	  <li class="<?php echo $category->slug ?>"><?php include_partial('category_title', array('admin' => $admin, 'category' => $category, 'tag' => 'p')) ?></li>
+  <?php endforeach ?>
+
+  <?php if ($pager->haveToPaginate()): ?>
+  	<?php include_partial('aProductItem/pager', array('max_per_page' => $max_per_page, 'pager' => $pager, 'pagerUrl' => url_for('aProductItem/index?'))) ?>
+   <?php endif ?>
 </ul>

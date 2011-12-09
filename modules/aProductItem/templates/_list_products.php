@@ -1,3 +1,4 @@
+<?php $pagerUrl = url_for(isset($category) ? 'aProductItem/category?' : 'aProductItem/all?') ?>
 <?php if(isset($category) && $admin): ?>
 <div class="actions a-ui">
   <?php echo a_js_button('<span class="icon"></span>'.__('Add Product'), array('a-btn','icon', 'big', 'a-add', 'add-product'), 'add-product') ?>
@@ -12,7 +13,15 @@
 <?php endif ?>
 
 <ul class="products a-ui <?php echo isset($category) ? $category->slug : 'all' ?>">
-  <?php foreach($products as $product): ?>  
+  <?php if ($pager->haveToPaginate()): ?>
+  	<?php include_partial('aProductItem/pager', array('max_per_page' => $max_per_page, 'pager' => $pager, 'pagerUrl' => $pagerUrl)) ?>
+  <?php endif ?>
+
+  <?php foreach ($pager->getResults() as $product): ?>
     <li><?php include_partial('product_title', array('product' => $product, 'admin' => $admin)) ?></li>
-  <?php endforeach; ?>
+  <?php endforeach ?>
+  
+  <?php if ($pager->haveToPaginate()): ?>
+    	<?php include_partial('aProductItem/pager', array('max_per_page' => $max_per_page, 'pager' => $pager, 'pagerUrl' => $pagerUrl)) ?>
+  <?php endif ?>
 </ul>

@@ -23,31 +23,41 @@ class BaseaProductItemActions extends aEngineActions
    */
   public function executeIndex(sfWebRequest $request)
   {
-    $this->categories = Doctrine::getTable('ProductCategory')
-      ->createQuery()
-      ->execute();
+  	$this->max_per_page = sfConfig::get('app_samProduct_max_per_page_category');
+    $this->pager = $this->getPager(Doctrine::getTable('ProductCategory')->createQuery());
   }
   
   /**
-   * Show categories 
+   * Show all products
    *
    * @param sfWebRequest $request The request parameters
    */
   public function executeAll(sfWebRequest $request)
   {
-    $this->products = Doctrine::getTable('Product')
-      ->createQuery()
-      ->execute();
+  	
+    $this->max_per_page = sfConfig::get('app_samProduct_max_per_page_product');
+    
+    $this->pager = $this->getPager(Doctrine::getTable('Product')->createQuery());
   }
   
   /**
-  * Show a single product
+  * Show a single category
   *
   * @param sfWebRequest $request The request parameters
   */
   public function executeCategory(sfWebRequest $request)
   {
   	$this->category = $this->getRoute()->getObject();
+  	
+  	$this->max_per_page = sfConfig::get('app_samProduct_max_per_page_product');
+  	
+  	//TODO melhorar a query
+  	$query = Doctrine::getTable('Product')
+      ->createQuery('p')
+      ->leftJoin('p.ProductCategory c')
+      ->where('c.id = ?', $this->category->id);
+  	
+  	$this->pager = $this->getPager($query);
   	
   	$this->setPageBy($this->category, sfConfig::get('app_samProduct_prefixCategory'));
   }
@@ -234,6 +244,16 @@ class BaseaProductItemActions extends aEngineActions
       $newPage->save();
     }
     aTools::setCurrentPage($newPage);
+  }
+  
+  protected function getPager($query) {
+  	$pager = new sfDoctrinePager($this->modelClass);
+  	$pager->setMaxPerPage($this->max_per_page);
+  	$pager->setQuery($query);
+  	$pager->setPage($this->getRequestParameter('page', 1));
+  	$pager->init();
+  	
+  	return $pager;
   }
   
 }

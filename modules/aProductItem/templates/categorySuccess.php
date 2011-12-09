@@ -13,4 +13,4 @@
 <?php include_partial('category', array('category' => $category)) ?>
 
 
-<?php include_partial('list_products', array('admin' => $admin, 'products' => $category->Product, 'category' => $category)) ?>
+<?php include_partial('list_products', array('pager' => $pager, 'admin' => $admin, 'category' => $category, 'max_per_page' => $max_per_page)) ?>
