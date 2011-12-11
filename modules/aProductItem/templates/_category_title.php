@@ -1,7 +1,7 @@
 <?php $tag = (isset($tag)) ? $tag : array('name' => 'span') ?>
 <div class="product-category-title">
 <<?php echo $tag['name'] ?> class="<?php if(isset($tag['class'])) echo $tag['class'] ?>">
-  <?php echo link_to($category, 'aProductItem_category', array('slug' => $category->slug)) ?>
+  <?php echo link_to($category, $category->getUrl()) ?>
 </<?php echo $tag['name'] ?>>
 
 <?php if($admin): ?>

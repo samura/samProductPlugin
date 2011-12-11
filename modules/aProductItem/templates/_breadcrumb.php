@@ -21,14 +21,14 @@
 	
 	<?php if(isset($category)):?>
 	  <li class="<?php echo $class; if(!isset($product)) echo ' a-current-page'; ?>">
-		<?php echo link_to($category, 'aProductItem_category', array('slug' => $category->slug)) ?>
+	  	<?php echo link_to($category, $category->getUrl()) ?>
 		<?php if(isset($product)) echo '<span class="a-breadcrumb-separator">'.$separator.'</span>'; ?>
 	  </li>
 	<?php endif ?>
 
 	<?php if(isset($product)):?>
 	<li class="<?php echo $class ?> a-current-page">
-		<?php echo link_to($product, 'aProductItem_show', array('slug' => $product->slug, 'cat' => $product->ProductCategory->slug)) ?>
+		<?php echo link_to($product, $product->getUrl())?>
 	</li>
 	<?php endif ?>
 </ul>

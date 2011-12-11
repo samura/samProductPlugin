@@ -2,7 +2,7 @@
 
 <div class="product-title">
 <<?php echo $tag['name'] ?> class="<?php if(isset($tag['class'])) echo $tag['class'] ?>">
-  <?php echo link_to($product, 'aProductItem_show', array('slug' => $product->slug, 'cat' => $product->ProductCategory->slug)) ?>
+  <?php echo link_to($product, $product->getUrl())?>
 </<?php echo $tag['name'] ?>>
 
 <?php if($admin): ?>

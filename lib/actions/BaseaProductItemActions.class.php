@@ -59,7 +59,7 @@ class BaseaProductItemActions extends aEngineActions
   	
   	$this->pager = $this->getPager($query);
   	
-  	$this->setPageBy($this->category, sfConfig::get('app_samProduct_prefixCategory'));
+  	$this->setPageBy($this->category);
   }
   
   /**
@@ -75,7 +75,7 @@ class BaseaProductItemActions extends aEngineActions
       ->where('c.slug = ?', $request->getParameter('cat'))
       ->andWhere('p.slug = ?', $request->getParameter('slug'))
       ->fetchOne();
-    $this->setPageBy($this->product, sfConfig::get('app_samProduct_prefixProduct'));
+    $this->setPageBy($this->product);
   }
   
   /**
@@ -175,10 +175,10 @@ class BaseaProductItemActions extends aEngineActions
   	switch($request->getParameter('type'))
   	{
   		case 'category':
-  			$this->deleteCategory($request->getParameter('slug'));	
+  			$this->deleteCategory($request->getParameter('slug'), $request->getReferer());	
   			break;
   		case 'product':
-  			$this->deleteProduct($request->getParameter('slug'));
+  			$this->deleteProduct($request->getParameter('slug'), $request->getReferer());
   			break;
   		default:
   			$this->forward404();
@@ -189,7 +189,7 @@ class BaseaProductItemActions extends aEngineActions
    * tests if can delete a ProductCategory and deletes it
    * param string $slug The ProductCategory slug
    */
-  protected function deleteCategory($slug)
+  protected function deleteCategory($slug, $referer)
   {
     $this->forward404Unless(
       $category = Doctrine::getTable('ProductCategory')->findOneBySlug($slug));
@@ -197,8 +197,13 @@ class BaseaProductItemActions extends aEngineActions
     // test if has products or other categories in it
     if(sizeof($category->Product) || sizeof($category->ChildProductCategory)) {
       $this->getUser()->setFlash('error', 'You can only delete empty categories');
-      $this->redirect($request->getReferer());
+      $this->redirect($referer);
     }
+    
+    $page = aPageTable::retrieveBySlugWithSlots($category->getPageSlug());
+    if($page)
+    	$page->delete();
+    
 
     // TODO: delete every slot used by the category (if any)
   
@@ -218,7 +223,7 @@ class BaseaProductItemActions extends aEngineActions
       $product = Doctrine::getTable('Product')->findOneBySlug($slug));
       
     // delete every slot used by the product
-    $page = aPageTable::retrieveBySlugWithSlots(sfConfig::get('app_samProduct_prefix').$product->slug);
+    $page = aPageTable::retrieveBySlugWithSlots($product->getPageSlug());
     if($page)
       $page->delete();
     
@@ -234,15 +239,14 @@ class BaseaProductItemActions extends aEngineActions
    * param Product/Category $item
    * param $perfix 
    */
-  protected function setPageBy($item, $perfix)
+  protected function setPageBy($item)
   { 
-  	$slug = $perfix.$item->slug;
-    $newPage = aPageTable::retrieveBySlugWithSlots($slug);
+    $newPage = aPageTable::retrieveBySlugWithSlots($item->getPageSlug());
     if(!$newPage)
     {
       $newPage = new aPage();
       $newPage->getNode()->insertAsFirstChildOf($this->page);
-      $newPage->slug = $slug;
+      $newPage->slug = $item->getPageSlug();
       //TODO por titulo $newPage->setTitle($item);
       $newPage->save();
     }

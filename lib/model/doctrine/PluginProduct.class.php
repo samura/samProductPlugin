@@ -12,5 +12,35 @@
  */
 abstract class PluginProduct extends BaseProduct
 {
-
+	public function getUrl() {
+		return url_for('aProductItem_show', array('slug' => $this->slug, 'cat' => $this->ProductCategory->slug));
+	}
+	
+	public function link_to() {
+		return link_to($this, 'aProductItem_show', array('slug' => $this->slug, 'cat' => $this->ProductCategory->slug));
+	}
+	
+	public function getPageSlug() {
+		$perfix = sfConfig::get('app_samProduct_prefixProduct');
+		return $perfix . $this->slug;
+	}
+	
+	public function getText($limit = null) {
+		$page = aPageTable::retrieveBySlug($this->getPageSlug());
+		$text = '';
+		
+		foreach($page->getAllSlots() as $slot)
+		{
+			if(method_exists($slot, 'getText'))
+			{
+				$text .= $slot->getText();
+			}
+		}
+		if(!is_null($limit))
+		{
+			$text = aString::limitWords($text, $limit);
+		}
+		
+		return $text;
+	}	
 }

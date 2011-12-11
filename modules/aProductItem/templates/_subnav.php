@@ -24,8 +24,8 @@
 	        if($pos == $count_c-1) echo ' last'
 	    ?>" id="a-nav-item-<?php echo $name ?>-<?php echo $category->id?>">
 	
-	      <?php echo link_to($category, 'aProductItem_category', array('slug' => $category->slug)) ?>
-	
+	  		<?php echo link_to($category, $category->getUrl()) ?>
+	        	
 	      <?php if(!empty($products)): //if has children?>
 	      <ul class="a-nav a-nav-<?php echo $name ?>' accordion nav-depth-1 clearfix" id="a-nav-<?php echo $name ?>-1">
 			<?php $count_p = count($products)?>
@@ -37,9 +37,8 @@
 	      	        if($pos2 == $count_p-2) echo ' next-last';
 	      	        if($pos2 == $count_p-1) echo ' last'
 	      	    ?>" id="a-nav-item-<?php echo $name ?>-<?php echo $product->id?>">
-	      
-	      		<?php echo link_to($product, 'aProductItem_show', array('slug' => $product->slug, 'cat' => $category->slug)) ?>
-	      	</li>
+					<?php echo link_to($product, $product->getUrl())?>
+	      	        	      	</li>
 	      	<?php endforeach; ?>
 	      </ul>
 	      <?php endif; ?>
