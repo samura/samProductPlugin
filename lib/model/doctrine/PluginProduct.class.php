@@ -19,28 +19,84 @@ abstract class PluginProduct extends BaseProduct
 	public function link_to() {
 		return link_to($this, 'aProductItem_show', array('slug' => $this->slug, 'cat' => $this->ProductCategory->slug));
 	}
-	
+
 	public function getPageSlug() {
 		$perfix = sfConfig::get('app_samProduct_prefixProduct');
 		return $perfix . $this->slug;
 	}
-	
+
 	public function getText($limit = null) {
+		$page = aPageTable::retrieveBySlugWithSlots($this->getPageSlug());
+		$text = '';
+
+		foreach ($page->Areas as $area)
+		{
+			$slot = $page->getArea($area['name']);
+			foreach($slot as $item)
+			{
+				if(method_exists($item, 'getText'))
+				{
+					$text .= str_replace("\n", '<br/>', $item->getText());
+				}
+			}
+		}
+
+		if(!is_null($limit))
+		{
+			$text = aString::limitWords($text, $limit);
+		}
+
+		return $text;
+	}
+	
+	public function getMedia($type = 'image', $limit = 1, $area = null) {
+		$page = aPageTable::retrieveBySlugWithSlots($this->getPageSlug());
+		$aMediaItems = array();
+		
+		$areas = isset($area) ? array ($area) : $page->Areas; 
+	
+		foreach ($areas as $area)
+		{
+			$slot = $page->getArea($area['name']);
+			foreach($slot as $item)
+			{
+				foreach($item->getOrderedMediaItems() as $aMediaItem)
+				{
+					if(is_null($type) || $aMediaItem['type'] == $type)
+					{
+						$limit = $limit - 1;
+						$aMediaItems[] = $aMediaItem;
+						if($limit == 0) return $aMediaItems;
+					}
+				}
+			}
+		}
+		return $aMediaItems;
+	}
+	
+	public function getMediaForArea($type = 'image', $limit = 1, $area = null) {
+		return $this->getMedia($type, $limit, $area);
+	}
+	
+	
+	public function getTextForArea($area, $limit = null) {
 		$page = aPageTable::retrieveBySlug($this->getPageSlug());
 		$text = '';
-		
-		foreach($page->getAllSlots() as $slot)
+		$slot = $page->getArea($area);
+
+		foreach($slot as $item)
 		{
-			if(method_exists($slot, 'getText'))
-			{
-				$text .= $slot->getText();
-			}
+ 			if(method_exists($item, 'getText'))
+ 			{
+				$text .= str_replace("\n", '<br/>', $item->getText());
+ 			}
 		}
 		if(!is_null($limit))
 		{
 			$text = aString::limitWords($text, $limit);
 		}
-		
+	
 		return $text;
-	}	
+	}
+	
 }

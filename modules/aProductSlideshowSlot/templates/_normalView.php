@@ -5,7 +5,21 @@
 <?php endif ?>
 
 <?php if (isset($product)): ?>
- <h1><?php echo $product ?></h1>
- <?php echo $product->getText( 100); ?>
+
+ <h1 class="a-productSlot-title"><?php echo $product ?></h1>
+ 
+  <?php if (isset($media) && !empty($media)): ?>
+ <div class='a-productSlot-media'> 
+  <?php include_component('aSlideshowSlot', 'slideshow', array(
+  	  			'items' => $media,
+  	  			'options' => array ('width' => 240, 'resizeType' => 'c',),
+  	  		))?>
+ </div>
+ <?php endif ?>
+ 
+ <div class='a-productSlot-text'>
+  <?php echo $sf_data->getRaw('text'); ?>
+ </div>
+
  
 <?php endif ?>
