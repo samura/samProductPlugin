@@ -20,7 +20,7 @@ class BaseaProductSlideshowSlotComponents extends aSlotComponents
 
 		$this->product = $this->getProduct();
 		
-		$this->text = $this->product->getText(100);
+		$this->text = $this->product->getRichText(100);
 		
 		$this->media = $this->product->getMedia();
 	}
@@ -28,26 +28,16 @@ class BaseaProductSlideshowSlotComponents extends aSlotComponents
 	protected function getProduct()
 	{
 		$category = isset($this->values['category']);
-		//$random = isset($this->values['random']) && $this->values['random'];
 		 
-		$query = Doctrine::getTable('Product');
+		$query = Doctrine::getTable('Product')->createQuery('p');
 		 
 		if($category)
-		$query = $query->createQuery('p')->leftJoin('p.ProductCategory c')->where('c.id = ?', $this->values['category']);
-		else
-		$query = $query->createQuery();
+			$query->leftJoin('p.ProductCategory c')->where('c.id = ?', $this->values['category']);
+
 		 
 		//if($random)
 		$query = $query->orderBy('RAND()');
 		 
 		return $query->fetchOne();
-
-
-		/*if(isset($this->values['random']) && $this->values['random']) {
-		 $count = $query->select('count(*)')->fetchOne(array(), Doctrine::HYDRATE_NONE);
-		return $query->limit(1) ->offset(rand(0, $count[0] - 1)) ->fetchOne();
-		}
-		else
-		return $query->fetchOne();*/
 	}
 }

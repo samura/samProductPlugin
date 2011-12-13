@@ -36,29 +36,82 @@ abstract class PluginProduct extends BaseProduct
 			{
 				if(method_exists($item, 'getText'))
 				{
-					$text .= str_replace("\n", '<br/>', $item->getText());
+					$text .=  $item->getText();
 				}
 			}
 		}
+		
+		$text = str_replace("\n", "<br />", $text);
 
 		if(!is_null($limit))
 		{
-			$text = aString::limitWords($text, $limit);
+			$text = aString::limitWords($text, $limit, array('append_ellipsis' => true));
 		}
 
 		return $text;
 	}
 	
-	public function getMedia($type = 'image', $limit = 1, $area = null) {
+	public function getTextForArea($area, $limit = null) {
+		$page = aPageTable::retrieveBySlug($this->getPageSlug());
+		$text = '';
+	
+		foreach($page->getArea($area) as $item)
+		{
+			if(method_exists($item, 'getText'))
+			{
+				$text .= $item->getText();
+			}
+		}
+		
+		//$text = str_replace("\n", "<br />", $text);
+		
+		if(!is_null($limit))
+		{
+			$text = aString::limitWords($text, $limit, array('append_ellipsis' => true));
+		}
+	
+		return $text;
+	}
+	
+	public function getRichText($limit = null) {
+		$page = aPageTable::retrieveBySlugWithSlots($this->getPageSlug());
+		$text = '';
+	
+		foreach ($page->Areas as $area)
+		{
+			$text .= $page->getAreaBasicHtml($area['name']);
+		}
+	
+		if(!is_null($limit))
+		{
+			$text = aHtml::limitWords($text, $limit, array('append_ellipsis' => true));
+		}
+	
+		return $text;
+	}
+	
+	public function getRichTextForArea($area, $limit = null) {
+		$page = aPageTable::retrieveBySlug($this->getPageSlug());
+		
+		$text = $page->getAreaBasicHtml($area);
+	
+		if(!is_null($limit))
+		{
+			$text = aHtml::limitWords($text, $limit, array('append_ellipsis' => true));
+		}
+	
+		return $text;
+	}
+	
+	
+	
+	public function getMedia($type = 'image', $limit = 1) {
 		$page = aPageTable::retrieveBySlugWithSlots($this->getPageSlug());
 		$aMediaItems = array();
-		
-		$areas = isset($area) ? array ($area) : $page->Areas; 
-	
-		foreach ($areas as $area)
+			
+		foreach ($page->Areas as $area)
 		{
-			$slot = $page->getArea($area['name']);
-			foreach($slot as $item)
+			foreach($page->getArea($area['name']) as $item)
 			{
 				foreach($item->getOrderedMediaItems() as $aMediaItem)
 				{
@@ -73,30 +126,25 @@ abstract class PluginProduct extends BaseProduct
 		}
 		return $aMediaItems;
 	}
-	
-	public function getMediaForArea($type = 'image', $limit = 1, $area = null) {
-		return $this->getMedia($type, $limit, $area);
-	}
-	
-	
-	public function getTextForArea($area, $limit = null) {
-		$page = aPageTable::retrieveBySlug($this->getPageSlug());
-		$text = '';
-		$slot = $page->getArea($area);
 
-		foreach($slot as $item)
+	public function getMediaForArea($area, $type = 'image', $limit = 1) {
+		$page = aPageTable::retrieveBySlug($this->getPageSlug());
+		$aMediaItems = array();
+
+		foreach($page->getArea($area) as $item)
 		{
- 			if(method_exists($item, 'getText'))
- 			{
-				$text .= str_replace("\n", '<br/>', $item->getText());
- 			}
+			foreach($item->getOrderedMediaItems() as $aMediaItem)
+			{
+				if(is_null($type) || $aMediaItem['type'] == $type)
+				{
+					$limit = $limit - 1;
+					$aMediaItems[] = $aMediaItem;
+					if($limit == 0) return $aMediaItems;
+				}
+			}
 		}
-		if(!is_null($limit))
-		{
-			$text = aString::limitWords($text, $limit);
-		}
-	
-		return $text;
+		
+		return $aMediaItems;
 	}
 	
 }
