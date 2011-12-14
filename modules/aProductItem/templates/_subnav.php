@@ -11,7 +11,7 @@
 <div class="a-ui a-subnav-wrapper">
 	<div class="a-subnav-inner">
 		
-	<ul class="a-nav a-nav-<?php echo $name ?>' accordion nav-depth-0 clearfix" id="a-nav-<?php echo $name ?>-0">
+	<ul class="a-nav a-nav-<?php echo $name ?> accordion nav-depth-0 clearfix" id="a-nav-<?php echo $name ?>-0">
 	<?php $count_c = count($product_categories)?>	
 	<?php foreach($product_categories as $pos => $category): ?>	
 		<?php $products = $category->Product ?>
@@ -27,7 +27,7 @@
 	  		<?php echo link_to($category, $category->getUrl()) ?>
 	        	
 	      <?php if(!empty($products)): //if has children?>
-	      <ul class="a-nav a-nav-<?php echo $name ?>' accordion nav-depth-1 clearfix" id="a-nav-<?php echo $name ?>-1">
+	      <ul class="a-nav a-nav-<?php echo $name ?> accordion nav-depth-1 clearfix" id="a-nav-<?php echo $name ?>-1">
 			<?php $count_p = count($products)?>
 	      	<?php foreach($products as $pos2 => $product): ?>
 	      	<li class="<?php echo $class;
