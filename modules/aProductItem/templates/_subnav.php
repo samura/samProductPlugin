@@ -16,8 +16,8 @@
 	<?php foreach($product_categories as $pos => $category): ?>	
 		<?php $products = $category->Product ?>
 	    <li class="<?php echo $class;
-	        if(strpos($active, $category->slug) !== FALSE) echo ' a-current-page';
-	        if(!empty($products)) echo ' ancestor';
+	        if(strcmp($active, $category->slug) == 0) echo ' current-page'; 
+	        if(!empty($products) && count($products) != 0) echo ' ancestor';
 	        if($pos == 0) echo ' first';
 	        if($pos == 1) echo ' second';
 	        if($pos == $count_c-2) echo ' next-last';
@@ -26,13 +26,13 @@
 	
 	  		<?php echo link_to($category, $category->getUrl()) ?>
 	        	
-	      <?php if(!empty($products)): //if has children?>
+	      <?php if(!empty($products) && count($products) != 0): //if has children?>
 	      <ul class="a-nav a-nav-<?php echo $name ?> accordion nav-depth-1 clearfix" id="a-nav-<?php echo $name ?>-1">
 			<?php $count_p = count($products)?>
 	      	<?php foreach($products as $pos2 => $product): ?>
 	      	<li class="<?php echo $class;
-	      	        if(strpos($active, $product->slug) !== FALSE) echo ' a-current-page';
-	      	        if($pos2 == 0) echo ' first';
+					if(strcmp($active, $product->slug) == 0) echo ' current-page';
+					if($pos2 == 0) echo ' first';
 	      	        if($pos2 == 1) echo ' second';
 	      	        if($pos2 == $count_p-2) echo ' next-last';
 	      	        if($pos2 == $count_p-1) echo ' last'

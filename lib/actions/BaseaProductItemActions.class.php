@@ -196,7 +196,7 @@ class BaseaProductItemActions extends aEngineActions
       
     // test if has products or other categories in it
     if(sizeof($category->Product) || sizeof($category->ChildProductCategory)) {
-      $this->getUser()->setFlash('error', 'You can only delete empty categories');
+      $this->getUser()->setFlash('error', 'You can only delete empty categories.');
       $this->redirect($referer);
     }
     

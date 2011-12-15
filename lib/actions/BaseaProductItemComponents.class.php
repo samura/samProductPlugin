@@ -13,5 +13,19 @@ class BaseaProductItemComponents extends sfComponents
   public function executeSubnav(sfWebRequest $request)
   {
     $this->product_categories = Doctrine::getTable('ProductCategory')->createQuery()->execute();
+    
+    $pageSlug = aTools::getCurrentPage()->slug;
+    
+    $prefix = sfConfig::get('app_samProduct_prefixProduct');
+    if (substr($pageSlug, 0, strlen($prefix) ) == $prefix) {
+    	$pageSlug = substr($pageSlug, strlen($prefix), strlen($pageSlug) );
+    }
+    
+    $prefix = sfConfig::get('app_samProduct_prefixCategory');
+    if (substr($pageSlug, 0, strlen($prefix) ) == $prefix) {
+    	$pageSlug = substr($pageSlug, strlen($prefix), strlen($pageSlug) );
+    }
+    
+    $this->active = $pageSlug;
   }
 }

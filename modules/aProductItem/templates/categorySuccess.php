@@ -6,9 +6,8 @@
 <?php include_partial('breadcrumb', array('page' => $page, 'category' => $category)) ?>
 <?php include_component('aProductItem', 'subnav') ?>
 
-<div class="category-header">
-  <?php include_partial('category_title', array('admin' => $admin, 'category' => $category, 'tag' => array('name' => 'h1'))) ?>
-</div>
+<?php // display error and info messages ?>
+<?php include_partial('messages'); ?>
 
 <?php include_partial('category', array('category' => $category)) ?>
 

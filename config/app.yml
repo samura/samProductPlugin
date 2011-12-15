@@ -3,4 +3,4 @@ all:
     prefixProduct: product- # slug prefix for every product area/slot
     prefixCategory: category- # slug prefix for every category area/slot
     max_per_page_category: 12
-    max_per_page_product: 9
+    max_per_page_product: 12
