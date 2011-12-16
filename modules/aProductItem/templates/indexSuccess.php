@@ -4,7 +4,7 @@
 <?php // Defining the <body> class ?>
 <?php slot('a-body-class','a-product index') ?>
 <?php include_partial('breadcrumb', array('page' => $page)) ?>
-<?php include_component('aProductItem', 'subnav') ?>
+<?php include_component('aProductItem', 'subnav' , array('page' => $page)) ?>
 
 <?php // display error and info messages ?>
 <?php include_partial('messages'); ?>

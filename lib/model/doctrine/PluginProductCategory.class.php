@@ -13,12 +13,9 @@
 abstract class PluginProductCategory extends BaseProductCategory
 {
 	public function getUrl() {
-		return url_for('aProductItem_category', array('slug' => $this->slug));
+		return url_for('aProductItem_category', array('slug' => $this->slug, 'engine-slug' =>$this->Page->slug));
 	}
-	public function link_to() {
-		return link_to($this, 'aProductItem_category', array('slug' => $this->slug));
-	}
-	
+
 	public function getPageSlug() {
 		$perfix = sfConfig::get('app_samProduct_prefixCategory');
 		return $perfix . $this->slug;

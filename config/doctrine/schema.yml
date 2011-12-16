@@ -11,7 +11,8 @@ Product:
     title: string(255)
     product_category_id: integer
   relations:
-    ProductCategory: ~
+    ProductCategory:
+      onDelete: CASCADE
 
 ProductCategory:
   actAs:
@@ -24,12 +25,22 @@ ProductCategory:
   columns:
     title: string(255)
     product_category_id: integer
+    page_id: integer
   relations:
     ParentProductCategory:
       local: product_category_id
       foreign: id
       class: ProductCategory
       foreignAlias: ChildProductCategory
+      onDelete: CASCADE
+    Page:
+      class: aPage
+      local: page_id
+      foreign: id
+      foreignAlias: ProductCategory
+      foreignType: one
+      onDelete: CASCADE
+      
 aProductSlideshowSlot:
   # Doctrine doesn't produce useful forms with column aggregation inheritance anyway,
   # and slots often use serialization into the value column... the Doctrine forms are not

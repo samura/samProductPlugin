@@ -24,7 +24,10 @@ class BaseaProductItemActions extends aEngineActions
   public function executeIndex(sfWebRequest $request)
   {
   	$this->max_per_page = sfConfig::get('app_samProduct_max_per_page_category');
-    $this->pager = $this->getPager(Doctrine::getTable('ProductCategory')->createQuery());
+    $this->pager = $this->getPager( Doctrine::getTable('ProductCategory')
+		->createQuery()
+		->where('page_id = ?', $this->page->id)
+    );
   }
   
   /**
@@ -34,10 +37,13 @@ class BaseaProductItemActions extends aEngineActions
    */
   public function executeAll(sfWebRequest $request)
   {
-  	
     $this->max_per_page = sfConfig::get('app_samProduct_max_per_page_product');
     
-    $this->pager = $this->getPager(Doctrine::getTable('Product')->createQuery());
+    $this->pager = $this->getPager(Doctrine::getTable('Product')
+    	->createQuery('p')
+    	->leftJoin('p.ProductCategory c')
+    	->where('c.page_id = ?', $this->page->id)
+    );
   }
   
   /**
@@ -69,12 +75,15 @@ class BaseaProductItemActions extends aEngineActions
    */
   public function executeShow(sfWebRequest $request)
   {
-    $this->product = Doctrine::getTable('Product')
-      ->createQuery('p')
-      ->leftJoin('p.ProductCategory c')
-      ->where('c.slug = ?', $request->getParameter('cat'))
-      ->andWhere('p.slug = ?', $request->getParameter('slug'))
-      ->fetchOne();
+  	$this->forward404Unless(
+	    $this->product = Doctrine::getTable('Product')
+	      ->createQuery('p')
+	      ->leftJoin('p.ProductCategory c')
+	      ->where('c.slug = ?', $request->getParameter('cat'))
+	      ->andWhere('p.slug = ?', $request->getParameter('slug'))
+  		  ->andWhere('c.page_id = ?', $this->page->id)
+	      ->fetchOne()
+  	);
     $this->setPageBy($this->product);
   }
   
@@ -90,9 +99,10 @@ class BaseaProductItemActions extends aEngineActions
       
     $category = new ProductCategory();
     $category->title = $request->getParameter('category');
+    $category->Page = $this->page;
     $category->save();
     
-    $this->redirect('aProductItem_category', array('slug' => $category->slug));
+    $this->redirect('aProductItem_category', array('slug' => $category->slug, 'engine-slug' => $category->Page->slug));
   }
   
   /**
@@ -113,7 +123,7 @@ class BaseaProductItemActions extends aEngineActions
     
     $product->save();
     
-    $this->redirect('aProductItem_show', array('slug' => $product->slug, 'cat' => $category->slug));
+    $this->redirect('aProductItem_show', array('slug' => $product->slug, 'cat' => $category->slug, 'engine-slug' => $category->Page->slug));
   }
  
   
@@ -194,6 +204,8 @@ class BaseaProductItemActions extends aEngineActions
     $this->forward404Unless(
       $category = Doctrine::getTable('ProductCategory')->findOneBySlug($slug));
       
+    $engine_slug = $category->Page->slug;
+    
     // test if has products or other categories in it
     if(sizeof($category->Product) || sizeof($category->ChildProductCategory)) {
       $this->getUser()->setFlash('error', 'You can only delete empty categories.');
@@ -203,14 +215,11 @@ class BaseaProductItemActions extends aEngineActions
     $page = aPageTable::retrieveBySlugWithSlots($category->getPageSlug());
     if($page)
     	$page->delete();
-    
-
-    // TODO: delete every slot used by the category (if any)
   
     $category->delete();
     
     $this->getUser()->setFlash('message', 'Category successfully deleted.');
-    $this->redirect('aProductItem_index');
+    $this->redirect('aProductItem_index', array ('engine-slug' => $engine_slug));
   }
   
   /*
@@ -221,6 +230,8 @@ class BaseaProductItemActions extends aEngineActions
   {
     $this->forward404Unless(
       $product = Doctrine::getTable('Product')->findOneBySlug($slug));
+    
+    $engine_slug = $product->ProductCategory->Page->slug;
       
     // delete every slot used by the product
     $page = aPageTable::retrieveBySlugWithSlots($product->getPageSlug());
@@ -230,7 +241,7 @@ class BaseaProductItemActions extends aEngineActions
     $product->delete();
     
     $this->getUser()->setFlash('message', 'Product successfully deleted.');
-    $this->redirect('aProductItem_category', array('slug' => $product->ProductCategory->slug));
+    $this->redirect('aProductItem_category', array('slug' => $product->ProductCategory->slug, 'engine-slug' => $engine_slug));
   }
   
 

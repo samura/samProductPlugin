@@ -13,13 +13,9 @@
 abstract class PluginProduct extends BaseProduct
 {
 	public function getUrl() {
-		return url_for('aProductItem_show', array('slug' => $this->slug, 'cat' => $this->ProductCategory->slug));
+		return url_for('aProductItem_show', array('slug' => $this->slug, 'engine-slug' => $this->ProductCategory->Page->slug, 'cat' => $this->ProductCategory->slug));
 	}
 	
-	public function link_to() {
-		return link_to($this, 'aProductItem_show', array('slug' => $this->slug, 'cat' => $this->ProductCategory->slug));
-	}
-
 	public function getPageSlug() {
 		$perfix = sfConfig::get('app_samProduct_prefixProduct');
 		return $perfix . $this->slug;

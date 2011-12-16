@@ -7,9 +7,13 @@ class BaseaProductSlideshowSlotActions extends aSlotActions
 
     // Hyphen between slot and form to please our CSS
     $value = $this->getRequestParameter('slot-form-' . $this->id);
-    $this->form = new aProductSlideshowSlotEditForm($this->id, array());
+    $this->form = new aProductSlideshowSlotEditForm($this->id, $value);
     $this->form->bind($value);
-    if ($this->form->isValid())
+    if($request->getParameter('refresh') == "Y")
+    {
+    	return $this->editRetry();
+    }
+    elseif ($this->form->isValid())
     {
       // Serializes all of the values returned by the form into the 'value' column of the slot.
       // This is only one of many ways to save data in a slot. You can use custom columns,
@@ -28,4 +32,3 @@ class BaseaProductSlideshowSlotActions extends aSlotActions
     }
   }
 }
-  

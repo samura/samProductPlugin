@@ -19,7 +19,7 @@
     array(
       'class' => 'a-btn icon alt no-label a-delete', 
       'method' => 'delete', 
-      'confirm' => __('Are you sure?'))) ?>
+      'confirm' => a_('This will also delete all of its products! Are you sure you want to continue?'))) ?>
 </div>
 <?php endif ?>
 </div>

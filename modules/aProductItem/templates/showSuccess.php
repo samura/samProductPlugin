@@ -5,7 +5,7 @@
 <?php slot('a-body-class','a-product show') ?>
 
 <?php include_partial('breadcrumb', array('page' => $page, 'product' => $product, 'category' => $product->ProductCategory)) ?>
-<?php include_component('aProductItem', 'subnav') ?>
+<?php include_component('aProductItem', 'subnav', array('page' => $page)) ?>
 
 <?php // display error and info messages ?>
 <?php include_partial('messages'); ?>

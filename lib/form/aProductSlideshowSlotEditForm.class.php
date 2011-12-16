@@ -10,16 +10,27 @@ class aProductSlideshowSlotEditForm extends BaseForm
   }
   public function configure()
   {
+  	$engine = $this->defaults['engine'];
+  	if($engine)
+  		$query_category = Doctrine::getTable('ProductCategory')->createQuery('c')->leftJoin('c.Page p')->where('p.id = ?', $engine);
+  	else
+  		$query_category = $query_category = Doctrine::getTable('ProductCategory')->createQuery();
+  		
+  	
+  	$query_engine = Doctrine::getTable('aPage')->createQuery('p')->leftJoin('p.ProductCategory c')->where("c.page_id = p.id");
+  	
+  	
     // ADD YOUR FIELDS HERE
-  	//Doctrine::getTable('ProductCategory')->createQuery()
-    $this->setWidgets(array('category' => new sfWidgetFormDoctrineChoice(array('model' => 'ProductCategory', 'add_empty' => true, 'order_by' => array('id','desc'))),
+    $this->setWidgets(array('engine' => new sfWidgetFormDoctrineChoice(array('model' => 'aPage', 'query' => $query_engine, 'add_empty' => 'all')),
+    						'category' => new sfWidgetFormDoctrineChoice(array('model' => 'ProductCategory', 'query' => $query_category, 'add_empty' => 'all', 'order_by' => array('id','desc'))),
     						//'random' =>  new sfWidgetFormInputCheckbox(array('value_attribute_value' => true)),
-    						'delay' =>  new sfWidgetFormInput(),
+    						//'delay' =>  new sfWidgetFormInput(),
     
     ));
     
-    $this->setValidators(array('category' => new sfValidatorDoctrineChoice(array('model' => 'ProductCategory', 'required' => false)),
-    						   'delay' => new sfValidatorInteger(array('required' => false, 'max' => '999', 'min' => 0)),
+    $this->setValidators(array('engine' => new sfValidatorDoctrineChoice(array('model' => 'aPage', 'required' => false)),
+    						   'category' => new sfValidatorDoctrineChoice(array('model' => 'ProductCategory', 'required' => false)),
+    						  // 'delay' => new sfValidatorInteger(array('required' => false, 'max' => '999', 'min' => 0)),
    							  // 'random' => new sfValidatorBoolean(array('required' => false)),
     ));
    
