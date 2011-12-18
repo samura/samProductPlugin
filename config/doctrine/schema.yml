@@ -1,0 +1,122 @@
+# Your additional tables live here
+
+#ProductCategoryToASearchDocument:
+#  columns:
+#    a_search_document_id:
+#      type: integer
+#    product_category_id:
+#      type: integer
+#  relations:
+#    aSearchDocument:
+#      local: a_search_document_id
+#      foreign: id
+#      class: aSearchDocument
+#      onDelete: cascade
+#    product:
+#      local: product_category_id
+#      foreign: id
+#      class: ProductCategory
+#      onDelete: cascade
+#  options:
+#    symfony:
+#      form:   false
+#      filter: false
+#      
+#ProductToASearchDocument:
+#  columns:
+#    a_search_document_id:
+#      type: integer
+#    product_id:
+#      type: integer
+#  relations:
+#    aSearchDocument:
+#      local: a_search_document_id
+#      foreign: id
+#      class: aSearchDocument
+#      onDelete: cascade
+#    product:
+#      local: product_id
+#      foreign: id
+#      class: Product
+#      onDelete: cascade
+#  options:
+#    symfony:
+#      form:   false
+#      filter: false
+
+Product:
+  actAs:
+    Sluggable:
+      unique: true
+      fields: [title]
+      canUpdate: false      
+    I18n:
+      fields: [title]
+  columns:
+    title: string(255)
+    product_category_id: integer
+  relations:
+    ProductCategory:
+      onDelete: CASCADE
+#    aSearchDocuments:
+#      class: aSearchDocument
+#      refClass: ProductToASearchDocument
+#      foreign: a_search_document_id
+#      local: product_id
+
+ProductCategory:
+  actAs:
+    Sluggable:
+      unique: true
+      fields: [title]
+      canUpdate: false
+    I18n:
+      fields: [title]
+  columns:
+    title: string(255)
+    product_category_id: integer
+    page_id: integer
+  relations:
+    ParentProductCategory:
+      local: product_category_id
+      foreign: id
+      class: ProductCategory
+      foreignAlias: ChildProductCategory
+      onDelete: CASCADE
+    Page:
+      class: aPage
+      local: page_id
+      foreign: id
+      foreignAlias: ProductCategory
+      foreignType: one
+      onDelete: CASCADE
+#    aSearchDocuments:
+#      class: aSearchDocument
+#      refClass: ProductCategoryToASearchDocument
+#      foreign: a_search_document_id
+#      local: product_category_id
+      
+      
+aProductSlideshowSlot:
+  # Doctrine doesn't produce useful forms with column aggregation inheritance anyway,
+  # and slots often use serialization into the value column... the Doctrine forms are not
+  # of much use here and they clutter the project
+  options:
+    symfony:
+      form:   false
+      filter: false
+
+  # columns:
+  #
+  # You can add columns here. However, if you do not need foreign key relationships it is
+  # often easier to store your data in the 'value' column via serialize(). If you do add columns, 
+  # their names must be unique across all slots in your project, so use a unique prefix 
+  # for your company.
+    
+  # This is how we are able to retrieve slots of various types with a single query from
+  # a single table
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aProductSlideshow'
