@@ -25,8 +25,10 @@ class BaseaProductItemActions extends aEngineActions
   {
   	$this->max_per_page = sfConfig::get('app_samProduct_max_per_page_category');
     $this->pager = $this->getPager( Doctrine::getTable('ProductCategory')
-		->createQuery()
-		->where('page_id = ?', $this->page->id)
+		->createQuery('c')
+    	->leftJoin('c.Translation')
+		->where('c.page_id = ?', $this->page->id)
+		->orderBy('title')
     );
   }
   
@@ -43,6 +45,8 @@ class BaseaProductItemActions extends aEngineActions
     	->createQuery('p')
     	->leftJoin('p.ProductCategory c')
     	->where('c.page_id = ?', $this->page->id)
+    	->leftJoin('p.Translation')
+    	->orderBy('title')
     );
   }
   
@@ -57,11 +61,12 @@ class BaseaProductItemActions extends aEngineActions
   	
   	$this->max_per_page = sfConfig::get('app_samProduct_max_per_page_product');
   	
-  	//TODO melhorar a query
   	$query = Doctrine::getTable('Product')
       ->createQuery('p')
       ->leftJoin('p.ProductCategory c')
-      ->where('c.id = ?', $this->category->id);
+      ->where('c.id = ?', $this->category->id)
+  	  ->leftJoin('p.Translation')
+       ->orderBy('title');
   	
   	$this->pager = $this->getPager($query);
   	

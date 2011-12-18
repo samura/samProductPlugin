@@ -12,7 +12,7 @@ class BaseaProductItemComponents extends sfComponents
 {
   public function executeSubnav(sfWebRequest $request)
   {
-    $this->product_categories = Doctrine::getTable('ProductCategory')->createQuery()->where('page_id = ?', $this->page->id)->execute();
+    $this->product_categories = Doctrine::getTable('ProductCategory')->createQuery('c')->leftJoin('c.Translation')->orderBy('title')->where('page_id = ?', $this->page->id)->execute();
     
     $pageSlug = aTools::getCurrentPage()->slug;
     
@@ -28,4 +28,5 @@ class BaseaProductItemComponents extends sfComponents
     
     $this->active = $pageSlug;
   }
+  
 }

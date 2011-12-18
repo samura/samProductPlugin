@@ -14,7 +14,7 @@
 	<ul class="a-nav a-nav-<?php echo $name ?> accordion nav-depth-0 clearfix" id="a-nav-<?php echo $name ?>-0">
 	<?php $count_c = count($product_categories)?>	
 	<?php foreach($product_categories as $pos => $category): ?>	
-		<?php $products = $category->Product ?>
+		<?php $products = $category->getOrderedProducts() ?>
 	    <li class="<?php echo $class;
 	        if(strcmp($active, $category->slug) == 0) echo ' current-page'; 
 	        if(!empty($products) && count($products) != 0) echo ' ancestor';

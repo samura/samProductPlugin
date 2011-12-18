@@ -12,9 +12,9 @@ class aProductSlideshowSlotEditForm extends BaseForm
   {
   	$engine = $this->defaults['engine'];
   	if($engine)
-  		$query_category = Doctrine::getTable('ProductCategory')->createQuery('c')->leftJoin('c.Page p')->where('p.id = ?', $engine);
+  		$query_category = Doctrine::getTable('ProductCategory')->createQuery('c')->leftJoin('c.Page p')->where('p.id = ?', $engine)->leftJoin('c.Translation')->orderBy('title');
   	else
-  		$query_category = $query_category = Doctrine::getTable('ProductCategory')->createQuery();
+  		$query_category = Doctrine::getTable('ProductCategory')->createQuery('c')->leftJoin('c.Translation')->orderBy('title');
   		
   	
   	$query_engine = Doctrine::getTable('aPage')->createQuery('p')->leftJoin('p.ProductCategory c')->where("c.page_id = p.id");

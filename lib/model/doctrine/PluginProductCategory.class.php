@@ -21,6 +21,17 @@ abstract class PluginProductCategory extends BaseProductCategory
 		return $perfix . $this->slug;
 	}
 	
+	public function getOrderedProducts()
+	{
+		return Doctrine::getTable('Product')
+			->createQuery('p')
+			->leftJoin('p.ProductCategory c')
+			->where('c.id = ?', $this->id)
+			->leftJoin('p.Translation')
+			->orderBy('title')
+			->execute();	
+	}
+	
 	public function getText($limit = null) {
 		$page = aPageTable::retrieveBySlugWithSlots($this->getPageSlug());
 		$text = '';
