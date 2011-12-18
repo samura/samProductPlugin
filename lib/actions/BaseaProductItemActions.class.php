@@ -140,9 +140,9 @@ class BaseaProductItemActions extends aEngineActions
   		$form = new ProductCategoryForm($category);
   		$form->bind($request->getParameter('product_category'));
   		if($form->isValid())
-  		$form->save();
+  			$form->save();
   		else
-  		$this->getUser()-setFlash('error', 'The category name you entered is not valid.');
+  			$this->getUser()-setFlash('error', 'The category name you entered is not valid.');
   
   		$this->redirect($request->getReferer());
   	}

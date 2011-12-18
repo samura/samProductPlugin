@@ -1,4 +1,4 @@
-<?php $pagerUrl = url_for(isset($category) ? 'aProductItem/category?' : 'aProductItem/all?') ?>
+<?php $pagerUrl = isset($category) ? $category->getUrl().'?' : url_for('aProductItem/all?') ?>
 <?php if(isset($category) && $admin): ?>
 <div class="actions a-ui">
   <?php echo a_js_button('<span class="icon"></span>'.__('Add Product'), array('a-btn','icon', 'big', 'a-add', 'add-product'), 'add-product') ?>

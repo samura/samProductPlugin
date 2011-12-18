@@ -1,6 +1,6 @@
 <?php use_helper('JavascriptBase') ?>
 <div class='product-slideshow-form'>
-<?php echo $form; echo $id; ?>
+<?php echo $form; ?>
 </div>
 
 <?php javascript_tag() ?>

@@ -14,7 +14,7 @@ abstract class PluginProductCategoryForm extends BaseProductCategoryForm
   {
     parent::setup();
     
-    unset($this['product_category_id'], $this['slug']);
+    unset($this['product_category_id'], $this['slug'], $this['page_id']);
     
     $this->embedi18n(array(sfContext::getInstance()->getUser()->getCulture()));
   }

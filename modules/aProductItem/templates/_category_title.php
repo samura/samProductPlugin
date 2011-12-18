@@ -7,6 +7,7 @@
 <?php if($admin): ?>
 <div class="actions a-ui">
   <input type="hidden" name="slug" value="<?php echo $category->slug ?>">
+  <input type="hidden" name="page_id" value="<?php echo $category->page_id ?>">
   <input type="hidden" name="url" value="<?php echo url_for('aProductItem_editCategory') ?>">
   
   <?php echo a_js_button('Edit', array('icon','no-label', 'a-edit', 'edit-product-category')) ?>
@@ -19,7 +20,7 @@
     array(
       'class' => 'a-btn icon alt no-label a-delete', 
       'method' => 'delete', 
-      'confirm' => a_('This will also delete all of its products! Are you sure you want to continue?'))) ?>
+      'confirm' => a_('Are you sure?'))) ?>
 </div>
 <?php endif ?>
 </div>

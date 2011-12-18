@@ -143,4 +143,29 @@ abstract class PluginProduct extends BaseProduct
 		return $aMediaItems;
 	}
 	
+	/*public function postSave($event) {
+		parent::postSave($event);
+		aTools::$searchService->update(
+		array(
+			    'item' => $this,
+			    'text' => $this->getText(), 
+			    'info' => array('summary' => $this->getText(100)), 
+			    'culture' => aTools::getUserCulture()));
+	}
+	
+	public function postDelete($event) {
+		parent::postDelete($event);
+		aTools::$searchService->delete(
+			array('item' => $this));
+	}
+	
+	public function postUpdate($event) {
+		parent::postUpdate($event);
+		aTools::$searchService->update(
+		array(
+			    'item' => $this,
+			    'text' => $this->getText(), 
+			    'info' => array('summary' => $this->getText(100)), 
+			    'culture' => aTools::getUserCulture()));
+	}*/
 }
