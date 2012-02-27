@@ -296,8 +296,11 @@ class BaseaProductItemActions extends aEngineActions
     $this->products = Doctrine::getTable('Product')
       ->createQuery('p')
       ->leftJoin('p.Translation pt')
-      ->where('pt.lang = ?', $this->getUser()->getCulture())
-      ->where('pt.title LIKE "%'.$find.'%"')
+      ->leftJoin('p.ProductCategory c')
+      ->leftJoin('c.Page page')
+      ->where('page.id IS NOT NULL')
+      ->andWhere('pt.lang = ?', $this->getUser()->getCulture())
+      ->andWhere('pt.title LIKE "%'.$find.'%"')
       ->execute();
   }
 }

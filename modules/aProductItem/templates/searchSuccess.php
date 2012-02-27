@@ -1,6 +1,7 @@
 <?php slot('a-body-class','a-product search') ?>
 <div class="a-blog-main">
 
+  <?php if(count($products)): ?>
   <?php foreach($products as $product): ?>
     <div class="product-item">
       <h3 class="a-blog-item-title"><?php echo link_to($product->title, $product->getUrl()) ?></h3>
@@ -18,5 +19,8 @@
       <hr class="a-hr"/>   
     </div>
   <?php endforeach; ?>
-  
+  <?php else: ?>
+    <?php echo __('No products found.') ?>
+  <?php endif ?>
+
 </div>
