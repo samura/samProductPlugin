@@ -51,6 +51,9 @@ abstract class PluginProduct extends BaseProduct
 		$page = aPageTable::retrieveBySlug($this->getPageSlug());
 		$text = '';
 	
+    if(!$page->getArea($area))
+      return '';
+    
 		foreach($page->getArea($area) as $item)
 		{
 			if(method_exists($item, 'getText'))

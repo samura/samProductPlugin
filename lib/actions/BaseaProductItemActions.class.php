@@ -279,4 +279,25 @@ class BaseaProductItemActions extends aEngineActions
   	return $pager;
   }
   
+  
+  /**
+   * Execute 
+   *
+   * @param sfWebRequest $request The request parameters
+   */
+  public function executeSearch(sfWebRequest $request)
+  {
+    $find = $request->getParameter('terms');
+    $find = strtoupper($find); 
+    $find = strip_tags($find); 
+    $find = trim ($find);
+    $find = str_replace(' ', '%', $find);
+    
+    $this->products = Doctrine::getTable('Product')
+      ->createQuery('p')
+      ->leftJoin('p.Translation pt')
+      ->where('pt.lang = ?', $this->getUser()->getCulture())
+      ->where('pt.title LIKE "%'.$find.'%"')
+      ->execute();
+  }
 }

@@ -35,6 +35,11 @@ aProductItem_product_add:
   url:  /admin/product_add
   param: { module: aProductItem, action: addProduct }
   class: aRoute
+
+aProductItem_search:
+  url: /search  
+  param: { module: aProductItem, action: search }
+  class: aRoute
   
 aProductItem_category:
   url:  /:slug
@@ -48,3 +53,5 @@ aProductItem_show:
   class: aRoute
   #options: { model: Product, type: object }
   #class: aDoctrineRoute
+
+  
